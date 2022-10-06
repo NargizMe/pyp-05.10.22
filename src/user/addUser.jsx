@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios";
 import {useNavigate} from "react-router";
-
+import { Button, ButtonGroup, Heading, Input } from "@chakra-ui/react"
 
 const DisplayingErrorMessagesSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -22,7 +22,7 @@ function AddUser() {
 
     return (
         <div>
-            <h1>User addition</h1>
+          <Heading as='h4' size='md' style={{margin: '50px 0 20px 0'}}>User Addition</Heading>
             <Formik
                 initialValues={{ email: '', firstName: '', lastName: '', birthDay: '' }}
                 validationSchema={DisplayingErrorMessagesSchema}
@@ -32,16 +32,18 @@ function AddUser() {
                 }}
             >
                 {({ errors, touched }) => (
-                    <Form>
-                        <Field name="firstName" placeholder="First Name"/>
+                    <Form style={{display: 'flex', flexDirection: 'column', width: '300px', rowGap: '13px'}}>
+                        <Field name="firstName" placeholder="First Name" style={{border: '1px solid black', padding: '5px 13px'}}/>
                         {touched.firstName && errors.firstName && <div>{errors.firstName}</div>}
-                        <Field name="lastName" placeholder="Last Name"/>
+                        <Field name="lastName" placeholder="Last Name" style={{border: '1px solid black', padding: '5px 13px'}}/>
                         {touched.lastName && errors.lastName && <div>{errors.lastName}</div>}
-                        <Field name="birthDay" placeholder="Birth Day"/>
+                        <Field name="birthDay" placeholder="Birth Day" style={{border: '1px solid black', padding: '5px 13px'}}/>
                         {touched.birthDay && errors.birthDay && <div>{errors.birthDay}</div>}
-                        <Field name="email" placeholder="Email" />
+                        <Field name="email" placeholder="Email" style={{border: '1px solid black', padding: '5px 13px'}}/>
                         {touched.email && errors.email && <div>{errors.email}</div>}
-                        <button type="submit">Submit</button>
+                        <ButtonGroup variant="link" spacing="8" style={{border: '1px solid black', padding: '5px 13px', width: '100px'}}>
+                            <Button type="submit">Submit</Button>
+                        </ButtonGroup>
                     </Form>
                 )}
             </Formik>

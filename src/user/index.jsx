@@ -1,6 +1,36 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Link} from "react-router-dom";
+import {
+    Box,
+    Container,
+    Flex,
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+    TableContainer,
+    useBreakpointValue,
+    useColorModeValue, ButtonGroup, Button, Input, Heading
+} from '@chakra-ui/react';
+import {Field, Form, Formik} from "formik";
+import * as Yup from "yup";
+
+
+const DisplayingErrorMessagesSchema = Yup.object().shape({
+    firstName: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+    lastName: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+    email: Yup.string().email('Invalid email').required('Required'),
+});
 
 function User() {
     const [users, setUsers] = useState([]);
@@ -44,53 +74,50 @@ function User() {
 
     return (
         <div>
-            <nav>
-                <Link to='/user/add'>Add User</Link>
-            </nav>
-            <h1>I am User</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Birth Day</th>
-                        <th>Email</th>
-                        <th>Action</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        users.map((el, i) => {
-                            return <tr key = {i}>
-                                <td>{el.firstName}</td>
-                                <td>{el.lastName}</td>
-                                <td>{el.birthDay}</td>
-                                <td>{el.email}</td>
-                                <td>
-                                    <button onClick={() => handleDelete(el._id)}>X</button>
-                                </td>
-                                <td>
-                                    <button onClick={() => handleChange(el)}>Change</button>
-                                </td>
-                            </tr>
-                        })
-                    }
-                </tbody>
-            </table>
-
+            <TableContainer>
+                <Table size='sm'>
+                    <Thead>
+                        <Tr>
+                            <Th>First Name</Th>
+                            <Th>Last Name</Th>
+                            <Th>BirTh Day</Th>
+                            <Th>Email</Th>
+                            <Th>Action</Th>
+                            <Th>Action</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {
+                            users.map((el, i) => {
+                                return <Tr key = {i}>
+                                    <Td>{el.firstName}</Td>
+                                    <Td>{el.lastName}</Td>
+                                    <Td>{el.birthDay}</Td>
+                                    <Td>{el.email}</Td>
+                                    <Td>
+                                        <button onClick={() => handleDelete(el._id)}>X</button>
+                                    </Td>
+                                    <Td>
+                                        <button onClick={() => handleChange(el)}>Change</button>
+                                    </Td>
+                                </Tr>
+                            })
+                        }
+                    </Tbody>
+                </Table>
+            </TableContainer>
             <div>
-                <h2>Edit</h2>
-                <form>
-                    <input type="text" value={val.firstName}
+                <Heading as='h4' size='md' style={{marginTop: '50px'}}>Edit</Heading>
+                <form style={{display: 'flex', flexDirection: 'column', rowGap: '13px', width:"400px"}}>
+                    <Input placeholder='First Name' type="text" value={val.firstName}
                            onChange={(e) => setVal({...val, firstName: e.target.value})}/>
-                    <input type="text" value={val.lastName}
+                    <Input placeholder='Last Name' type="text" value={val.lastName}
                            onChange={(e) => setVal({...val, lastName: e.target.value})}/>
-                    <input type="text" value={val.email}
+                    <Input placeholder='Email' type="text" value={val.email}
                            onChange={(e) => setVal({...val, email: e.target.value})}/>
-                    <input type="text" value={val.birthDay}
+                    <Input placeholder='Birth Day' type="text" value={val.birthDay}
                            onChange={(e) => setVal({...val, birthDay: e.target.value})}/>
-                    <button onClick={(e) => handleEdit(e)}>Save Changes</button>
+                    <Button onClick={(e) => handleEdit(e)} colorScheme='blue'>Save Changes</Button>
                 </form>
             </div>
         </div>
